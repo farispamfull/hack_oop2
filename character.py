@@ -40,7 +40,6 @@ class Character:
             self.add_item(item)
 
     def add_item(self, item):
-        print(f'Берем {item}')
         if len(self.items) >= 4:
             self.drop_item()
         self.items.append(item)
@@ -51,17 +50,26 @@ class Character:
 
     def drop_item(self):
         dropped_item = self.items.pop()
-        print(f'Бросаем {dropped_item}')
         self.full_attack -= dropped_item.attack
         self.full_defence -= dropped_item.defence
         self.full_hp -= dropped_item.additional_hp
         self.current_hp -= dropped_item.additional_hp
         return dropped_item
 
+    def get_damage(self):
+        return self.full_attack
+
     def recieve_damage(self, damage):
-        self.current_hp = self.current_hp - (damage-damage * self.full_defence)
+        '''
+            Метод получения урона
+            Формула для применения брони изменена на armor/(100+armor)
+            Таким образом броня может расти до бесконечности
+        '''
+        recieved_damage = int(damage - damage * self.full_defence /
+                              (self.full_defence+100))
+        self.current_hp = self.current_hp - recieved_damage
         if self.current_hp > 0:
-            return 'Alive'
+            return recieved_damage
         return 'Dead'
 
 

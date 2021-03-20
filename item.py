@@ -14,9 +14,9 @@ class Item:
             self.additional_hp = additional_hp
         elif mode == 'dict':
             self.name = info['name']
-            self.attack = info['attack']
-            self.defence = info['defence']
-            self.additional_hp = info['additional_hp']
+            self.attack = int(info['attack'])
+            self.defence = int(info['defence'])
+            self.additional_hp = int(info['additional_hp'])
 
     def __str__(self):
         return f'{self.name}'
@@ -26,3 +26,6 @@ class Item:
                 f'Урон: {self.attack}\n'
                 f'Защита: {self.defence}\n'
                 f'Бонусное здоровье: {self.additional_hp}')
+
+    def get_raryty(self):
+        return self.attack+self.defence+self.additional_hp
