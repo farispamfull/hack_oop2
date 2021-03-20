@@ -327,17 +327,24 @@ def prepare_fight(things=None, characters=None):
     characters.append(hero)
 
     # step 3: dress up the characters.
+    # work on coy of characters, due to I am using this coy as stack
+    # (popping characters)
     characters_dressed = characters.copy()
     i = 0
     while (things and
            not all([character.dressed for character in characters_dressed])
            and i <= 1000):
+        # select random character
         character = random.choice(characters_dressed)
+        # generate random subset of things
         things_rnd = random.sample(things, (random.randint(1, len(things))))
+        # things that were worn by character are returned
         things_worn = character.set_things(things_rnd)
         for worn in things_worn:
+            # drop things that were worn by a character from main things list
             things.pop(things.index(worn))
         if character.dressed:
+            # drop character if he has 4 things on already
             characters_dressed.pop(characters_dressed.index(character))
         i += 1
     return characters
