@@ -2,8 +2,8 @@ import random
 
 import colorama
 
+from game_objects.characters import Paladin, Rogue, Warrior
 from game_objects.items import Item
-from game_objects.characters import Paladin, Warrior, Rogue
 from game_objects.utils import AttackStatus
 from utils import CustomList
 
@@ -42,12 +42,15 @@ if __name__ == '__main__':
     characters = CustomList([random.choice(CLASSES)() for _ in range(20)])
 
     print(
-        f'Greetings, Your Majesty! Welcome to our tournament!\n'
-        f'Our champions for today are:\n'
+        'Greetings, Your Majesty! '
+        'Welcome to our tournament!\n'
+        'Our champions for today are:\n'
     )
     for character in characters:
         background_color = random.choice(COLORS)
-        character.set_items([Item() for _ in range(random.randint(0, MAX_ITEMS_PER_CHARACTER))])
+        character.set_items(
+            [Item() for _ in range(random.randint(0, MAX_ITEMS_PER_CHARACTER))]
+        )
         print(
             f'{character.get_full_name()}'
         )
@@ -75,9 +78,10 @@ if __name__ == '__main__':
                 for character in characters:
                     status = character.take_damage(25)
                     if status is AttackStatus.KILL:
+                        description = random.choice(MOVE_DESCRIPTION)
                         print(
                             colorama.Fore.RED +
-                            f'{character} {random.choice(MOVE_DESCRIPTION)} dies.' +
+                            f'{character} {description} dies.' +
                             colorama.Style.RESET_ALL
                         )
                         del character
@@ -85,9 +89,10 @@ if __name__ == '__main__':
                 character_name = commands[1]
                 for character in characters:
                     if character.name == character_name:
+                        description = random.choice(MOVE_DESCRIPTION)
                         print(
                             colorama.Fore.RED +
-                            f'{character} {random.choice(MOVE_DESCRIPTION)} dies.' +
+                            f'{character} {description} dies.' +
                             colorama.Style.RESET_ALL
                         )
                         del character
@@ -105,7 +110,8 @@ if __name__ == '__main__':
 
         print(
             colorama.Fore.BLACK + colorama.Back.YELLOW +
-            f'{attacking_character} {attack_description} attacks {defencing_character}:'
+            f'{attacking_character} {attack_description} '
+            f'attacks {defencing_character}:'
             f' {attacking_character.power} hit points.' +
             colorama.Style.RESET_ALL
         )

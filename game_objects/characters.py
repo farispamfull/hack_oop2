@@ -68,11 +68,13 @@ class Person:
         self.description = random.choice(DESCRIPTION)
 
     def __str__(self) -> str:
-        return f'{self.title} {self.description} {self.name} of {self.relation}'
+        return (f'{self.title} {self.description} {self.name} '
+                f'of {self.relation}')
 
     def get_full_name(self) -> str:
         if self.equipped_items:
-            item_names = '\n'.join([item.get_full_description() for item in self.equipped_items])
+            item_names = '\n'.join([item.get_full_description()
+                                    for item in self.equipped_items])
         else:
             item_names = 'nothing'
 
@@ -107,7 +109,6 @@ class Person:
             self.armor -= r_item.armor
             return f'{r_item}'
         return 'nothing to remove'
-
 
 
 class Paladin(Person):
