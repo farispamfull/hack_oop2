@@ -1,5 +1,4 @@
 import random
-from enum import Enum
 
 import colorama
 
@@ -37,19 +36,6 @@ COLORS = (
     colorama.Back.RED,
     colorama.Back.MAGENTA,
 )
-
-
-class PlayerCommands(Enum):
-    HEAL = 'heal',
-    KILL = 'kill',
-    DROP_BOMB = 'drop_bomb',
-    STOLE_ITEM = 'stole_item',
-
-
-class IsInteractive(Enum):
-    YES = 'YES'
-    NO = 'NO'
-
 
 if __name__ == '__main__':
     colorama.init()
