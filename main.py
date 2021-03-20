@@ -332,8 +332,10 @@ def create_combatant(list_of_things: List[Thing]) -> List[Union[Person,
         chosen_item = input('Введите название предмета чтобы подобрать '
                             'его, введите + чтобы продолжить ')
         if chosen_item in [thing.get_stat('name') for thing in things_copy]:
-            combatant.set_things(item)
-            things_copy.remove(item)
+            chosen_item = [item for item in things_copy
+                           if item.get_stat('name') == chosen_item][0]
+            combatant.set_things(chosen_item)
+            things_copy.remove(chosen_item)
             allowed_items -= 1
             if allowed_items == 0:
                 right_choice = True
