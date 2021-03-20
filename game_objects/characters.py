@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from game_objects.items import Item
+from game_objects.utils import DESCRIPTION, AttackStatus
 
 NAMES = (
     'Arthur',
@@ -33,6 +34,23 @@ NAMES = (
     'Tristan',
 )
 
+TITLES = (
+    'Sir',
+    'Lord',
+    'Duke',
+    'King',
+)
+
+CHARACTER_RELATION = (
+    'Schwifordshire',
+    'Harlem',
+    'San-Francisco',
+    'PEPland',
+    'Pub',
+    'China',
+    'Ellington',
+)
+
 
 @dataclass
 class Person:
@@ -40,30 +58,38 @@ class Person:
     health: int = 100
     power: int = 15
     armor: float = 0.1
+    dodge_probability: float = 0.0
     cls: str = 'person'
 
     def __post_init__(self):
         self.name = random.choice(NAMES)
+        self.title = random.choice(TITLES)
+        self.relation = random.choice(CHARACTER_RELATION)
+        self.description = random.choice(DESCRIPTION)
 
     def __str__(self) -> str:
-        return f'{self.name} ({self.cls})'
+        return f'{self.title} {self.description} {self.name} of {self.relation}'
 
-    # def __str__(self) -> str:
-    #     if self.equipped_items:
-    #         item_names = ', '.join([item.name for item in self.equipped_items])
-    #     else:
-    #         item_names = 'nothing'
-    #
-    #     return (
-    #         f'{self.name} ({self.cls}).\n'
-    #         f'Equipped with {item_names}.\n'
-    #     )
+    def get_full_name(self) -> str:
+        if self.equipped_items:
+            item_names = ', '.join([item.type for item in self.equipped_items])
+        else:
+            item_names = 'nothing'
 
-    def take_damage(self, damage) -> bool:
+        return (
+            f'{self}.\n'
+            f'Class: {self.cls}\n'
+            f'Equipped with {item_names}.\n'
+        )
+
+    def take_damage(self, damage) -> AttackStatus:
+        dice = random.random()
+        if dice <= self.dodge_probability:
+            return AttackStatus.DODGE
         self.health -= damage * (1 - self.armor)
         if self.health <= 0:
-            return False
-        return True
+            return AttackStatus.KILL
+        return AttackStatus.HIT
 
     def set_items(self, items: list[Item]) -> None:
         self.equipped_items = items
@@ -88,3 +114,8 @@ class Warrior(Person):
     def __init__(self):
         super().__init__()
         self.power *= 2
+
+
+class Rogue(Person):
+    cls: str = 'rogue'
+    pare_probability = 0.3

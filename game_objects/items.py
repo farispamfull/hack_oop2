@@ -1,6 +1,8 @@
 import random
 
-ITEMS = (
+from game_objects.utils import DESCRIPTION
+
+ITEM_TYPES = (
     'ring',
     'belt',
     'vest',
@@ -9,17 +11,31 @@ ITEMS = (
     'axe',
     'hammer',
     'trinket',
+    'dagger',
+)
+
+ITEM_RELATION = (
+    'Thunder',
+    'Foolness',
+    'Power',
+    'Stumble',
+    'Wall',
+    'Fountain',
+    'Teapot',
+    'Freakness',
+    'Shameless',
 )
 
 
 class Item:
     def __init__(self) -> None:
-        self.name = random.choice(ITEMS)
+        self.type = random.choice(ITEM_TYPES)
         self.armor = round(random.uniform(0, 0.1), 2)
         self.health = random.randint(0, 5)
         self.power = random.randint(0, 5)
+        self.name = f'{DESCRIPTION} {self.type} of {ITEM_RELATION}'
 
-    def __str__(self) -> str:
+    def get_full_description(self) -> str:
         return (
             f'Item name: {self.name}\n'
             f'Armor: {self.armor}\n'
@@ -27,5 +43,5 @@ class Item:
             f'Power: {self.power}\n'
         )
 
-    # def __cmp__(self, other) -> bool:
-    #     return self.armor > other.armor
+    def __str__(self):
+        return self.name
