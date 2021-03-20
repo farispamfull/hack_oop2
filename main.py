@@ -30,8 +30,8 @@ class Person():
     DEATH_PERSON = 'Что мертво, умереть не может. Персонаж {name} уже мёртв'
     INVENTORY = []
     MAX_DEFENSE = 30
-    LIMIT_CASE = ('Защита не может быть больше {limit}%. Для {name} установлена'
-                  ' максимальная защита')
+    LIMIT_CASE = ('Защита не может быть больше {limit}%. У {name} максимальная'
+                  ' защита')
 
     def __init__(self, name, health, defense, attack):
         if health <= 0:
@@ -49,7 +49,7 @@ class Person():
         return parameter
 
     def set_things(self, things):
-        pass
+        self.INVENTORY.append(things)
 
     def take_damage(self, ):
         pass
