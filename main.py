@@ -2,7 +2,11 @@ import random
 
 
 class Thing:
+<<<<<<< HEAD
     """Вещи для персонажей"""
+=======
+    """Шмотки всякие разные"""
+>>>>>>> 61d9c5b746926870b6600abec4263a9a9ea33dde
     def __init__(self, name, defence, attack, health):
         self.name = name
         self.defence = defence
@@ -32,6 +36,11 @@ class Person:
         self.health = self.health - damage
         return damage
 
+<<<<<<< HEAD
+=======
+    """еще нужны методы для выполнения какого-то там алгоритма"""
+
+>>>>>>> 61d9c5b746926870b6600abec4263a9a9ea33dde
 
 class Paladin(Person):
     def __init__(self, name, defence, attack, health):
@@ -137,7 +146,10 @@ class Game():
     NUMBER_OF_PERSONS = 10
 
     def create_items(self, counter):
+<<<<<<< HEAD
         """Создаем вещи"""
+=======
+>>>>>>> 61d9c5b746926870b6600abec4263a9a9ea33dde
         all_items = [
             self.HELMETS,
             self.ARMORS,
@@ -173,7 +185,10 @@ class Game():
         return sorted_items
 
     def create_persons(self):
+<<<<<<< HEAD
         """Создаем персонажей"""
+=======
+>>>>>>> 61d9c5b746926870b6600abec4263a9a9ea33dde
         classes = ["paladin", "warrior"]
         persons = []
         for i in range(self.NUMBER_OF_PERSONS):
@@ -191,7 +206,10 @@ class Game():
         return persons
 
     def start_new_game(self):
+<<<<<<< HEAD
         """Начинаем игру"""
+=======
+>>>>>>> 61d9c5b746926870b6600abec4263a9a9ea33dde
         print("Добро пожаловать на пивную арену!")
         # 1 шаг - создаем предметы
         items = self.create_items(random.randint(10, 30))
