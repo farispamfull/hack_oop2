@@ -67,6 +67,8 @@ class Game():
         self.items = sorted(self.items, key=lambda x: x.defence)
 
     def round(self):
+        self.round_number += 1
+        print(f'Paунд {self.round_number}')
         for character in self.characters:
             enemies = self.characters.copy()
             enemies.remove(character)
@@ -81,8 +83,7 @@ class Game():
                 self.damage_dealt += recieved
                 print(colorama.Fore.WHITE + f'{character.name} атакует '
                       f'{target_character.name} и наносит {recieved} урона!')
-        self.round_number += 1
-        print(f'Paунд {self.round_number}\n\n')
+        print()
 
     def play(self):
         while (len(self.characters) > 1):
@@ -96,5 +97,5 @@ class Game():
                                      f'А вот и его вещи:\n'
                                      f'{champion.show_inventory()}\n')
         print(colorama.Fore.CYAN +
-              'Покойтесь с миром\n' +
+              'Покойтесь с миром:\n' +
               '\n'.join(char.show_title() for char in self.dead_characters))
