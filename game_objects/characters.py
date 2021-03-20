@@ -99,6 +99,16 @@ class Person:
             self.armor += item.armor
             self.power += item.power
 
+    def remove_random_item(self) -> str:
+        if self.equipped_items:
+            r_item = self.equipped_items.pop()
+            self.health -= r_item.health
+            self.power -= r_item.power
+            self.armor -= r_item.armor
+            return f'{r_item}'
+        return 'nothing to remove'
+
+
 
 class Paladin(Person):
     cls: str = 'paladin'
@@ -119,4 +129,4 @@ class Warrior(Person):
 
 class Rogue(Person):
     cls: str = 'rogue'
-    dodge_probability = 0.5
+    dodge_probability: float = 0.5

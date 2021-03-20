@@ -1,4 +1,5 @@
 import random
+from enum import Enum
 
 import colorama
 
@@ -37,6 +38,19 @@ COLORS = (
     colorama.Back.MAGENTA,
 )
 
+
+class PlayerCommands(Enum):
+    HEAL = 'heal',
+    KILL = 'kill',
+    DROP_BOMB = 'drop_bomb',
+    STOLE_ITEM = 'stole_item',
+
+
+class IsInteractive(Enum):
+    YES = 'YES'
+    NO = 'NO'
+
+
 if __name__ == '__main__':
     colorama.init()
     characters = CustomList([random.choice(CLASSES)() for _ in range(20)])
@@ -51,8 +65,53 @@ if __name__ == '__main__':
         print(
             f'{character.get_full_name()}'
         )
-
+    print('Sir, would you like to interact with champions? [YES/NO]\n'
+          'Press NO for auto fight.')
+    is_interactive_fight = input().upper()
+    if is_interactive_fight == 'YES':
+        print('Great choice!\n'
+              'Here are some commands you can use:\n'
+              'heal <character name> - restore 50 HP to specified character\n'
+              'kill <character name> - kill specified character\n'
+              'drop_bomb - damage all characters on 25 HP\n'
+              'stole_item <character name>\n'
+              'press any button to skip\n')
     while len(characters) > 1:
+        if is_interactive_fight == 'YES':
+            print('Make decision, Sir!')
+            commands = input().split()
+            if commands[0] == 'heal':
+                character_name = commands[1]
+                for character in characters:
+                    if character.name == character_name:
+                        character.health += 50
+            elif commands[0] == 'drop_bomb':
+                for character in characters:
+                    status = character.take_damage(25)
+                    if status is AttackStatus.KILL:
+                        print(
+                            colorama.Fore.RED +
+                            f'{character} {random.choice(MOVE_DESCRIPTION)} dies.' +
+                            colorama.Style.RESET_ALL
+                        )
+                        del character
+            elif commands[0] == 'kill':
+                character_name = commands[1]
+                for character in characters:
+                    if character.name == character_name:
+                        print(
+                            colorama.Fore.RED +
+                            f'{character} {random.choice(MOVE_DESCRIPTION)} dies.' +
+                            colorama.Style.RESET_ALL
+                        )
+                        del character
+            elif commands[0] == 'stole_item':
+                character_name = commands[1]
+                for character in characters:
+                    if character.name == character_name:
+                        log = character.remove_random_item()
+                        print(f'{character} loses:\n', log)
+
         defencing_character = characters.random_pop()
         attacking_character = random.choice(characters)
         attack_description = random.choice(MOVE_DESCRIPTION)
@@ -63,7 +122,7 @@ if __name__ == '__main__':
             f'{attacking_character} {attack_description} attacks {defencing_character}:'
             f' {attacking_character.power} hit points.' +
             colorama.Style.RESET_ALL
-            )
+        )
 
         status = defencing_character.take_damage(attacking_character.power)
 
@@ -94,5 +153,3 @@ if __name__ == '__main__':
         f'{characters[0]} {win_description} wins!' +
         colorama.Style.RESET_ALL
     )
-
-
