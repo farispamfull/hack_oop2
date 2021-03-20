@@ -72,14 +72,15 @@ class Person:
 
     def get_full_name(self) -> str:
         if self.equipped_items:
-            item_names = ', '.join([item.type for item in self.equipped_items])
+            item_names = '\n'.join([item.get_full_description() for item in self.equipped_items])
         else:
             item_names = 'nothing'
 
         return (
             f'{self}.\n'
             f'Class: {self.cls}\n'
-            f'Equipped with {item_names}.\n'
+            f'Equipped with\n'
+            f'{item_names}\n'
         )
 
     def take_damage(self, damage) -> AttackStatus:

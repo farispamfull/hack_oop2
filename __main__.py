@@ -27,12 +27,30 @@ MOVE_DESCRIPTION = (
     'shamelessly',
 )
 
+COLORS = (
+    colorama.Back.GREEN,
+    colorama.Back.YELLOW,
+    colorama.Back.WHITE,
+    colorama.Back.CYAN,
+    colorama.Back.BLUE,
+    colorama.Back.RED,
+    colorama.Back.MAGENTA,
+)
+
 if __name__ == '__main__':
     colorama.init()
     characters = CustomList([random.choice(CLASSES)() for _ in range(20)])
 
+    print(
+        f'Greetings, Your Majesty! Welcome to our tournament!\n'
+        f'Our champions for today are:\n'
+    )
     for character in characters:
+        background_color = random.choice(COLORS)
         character.set_items([Item() for _ in range(random.randint(0, MAX_ITEMS_PER_CHARACTER))])
+        print(
+            f'{character.get_full_name()}'
+        )
 
     while len(characters) > 1:
         defencing_character = characters.random_pop()
@@ -46,7 +64,9 @@ if __name__ == '__main__':
             f' {attacking_character.power} hit points.' +
             colorama.Style.RESET_ALL
             )
+
         status = defencing_character.take_damage(attacking_character.power)
+
         if status is AttackStatus.HIT:
             print(
                 colorama.Fore.BLUE +

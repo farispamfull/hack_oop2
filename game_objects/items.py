@@ -33,11 +33,13 @@ class Item:
         self.armor = round(random.uniform(0, 0.1), 2)
         self.health = random.randint(0, 5)
         self.power = random.randint(0, 5)
-        self.name = f'{DESCRIPTION} {self.type} of {ITEM_RELATION}'
+        self.name = (f'{random.choice(DESCRIPTION)} '
+                     f'{self.type} of '
+                     f'{random.choice(ITEM_RELATION)}')
 
     def get_full_description(self) -> str:
         return (
-            f'Item name: {self.name}\n'
+            f'{self.name}\n'
             f'Armor: {self.armor}\n'
             f'Health: {self.health}\n'
             f'Power: {self.power}\n'
