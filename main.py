@@ -79,6 +79,28 @@ class Person:
             self.things.append(Thing(name))
         self.final_params()
 
+    def add_player_items(self):
+        while True:
+            print('Добавьте предметы Вашему персонажу:\n')
+            print(THINGS_DB.keys())
+            name = input('Введите название предмета предмета:\n')
+            try:
+                self.things.append(Thing(name))
+                print('Предмет успешно добавлен')
+            except:
+                print('Ошибка ввода')
+            if len(self.things) == 4:
+                print('Да начнется битва!')
+                time.sleep(2)
+                break
+            else:
+                cont = input('Вы хотите добавить предметы?<< Y/N >>\n')
+                if cont == 'N' or cont == 'n':
+                    print('Да начнется битва!')
+                    time.sleep(2)
+                    break
+        self.final_params()
+
     def final_params(self):
         self.final_hp = self.base_hp
         self.final_attack = self.base_attack
@@ -112,13 +134,13 @@ class Paladin(Person):
         self.class_name = 'Паладин'
 
 
-class Elf(Person):
+class Rogue(Person):
     def __init__(self):
         super().__init__()
-        self.base_attack = 1.5 * self.base_attack
+        self.base_attack = 2.5 * self.base_attack
         self.base_defence = 1.25 * self.base_defence
         self.base_hp = 0.75 * self.base_hp
-        self.class_name = 'Эльф'
+        self.class_name = 'Разбойник'
 
 
 # Функция битвы:
@@ -129,16 +151,6 @@ def battle():
     while True:
         # Проверка на совпадение имен:
         if unit_1.name != unit_2.name:
-            # Обнуляем предметы перед каждой битвой:
-            unit_1.things = []
-            unit_2.things = []
-            # Даем бойцам рандомные предметы:
-            unit_1.setThings()
-            for i in range(len(unit_1.things)):
-                print(f'{unit_1.name} получил {unit_1.things[i].name}')
-            unit_2.setThings()
-            for i in range(len(unit_2.things)):
-                print(f'{unit_2.name} получил {unit_2.things[i].name}')
 
             battle_units = [unit_1, unit_2]
 
@@ -165,7 +177,7 @@ def battle():
                           f'Осталось HP:{Fore.GREEN}',
                           f'{round(defencer.final_hp, 2)}{Style.RESET_ALL}')
                     # Пауза между ударами для эпичности:
-                    time.sleep(0.6)
+                    time.sleep(0.4)
                     if defencer.final_hp <= 0:
                         print(
                             f'{Fore.BLUE}{defencer.name}{Style.RESET_ALL}',
@@ -182,11 +194,56 @@ def battle():
             unit_2 = random.choice(units)
 
 
+# Создание своего персонажа
+def create_player_unit():
+    create = input(f'Вы хотите создать своего персонажа?<< Y/N >>\n')
+    if create == 'N' or create == 'n':
+        return None
+    else:
+        player_name = input('Введите имя Вашего персонажа:\n')
+        print(f'Имя Вашего персонажа: {player_name}')
+        while True:
+            p_cl = input(
+                'Выберете класс персонажа:<<Warrior/Paladin/Rogue>>\n')
+            if p_cl == 'Warrior' or p_cl == 'Paladin' or p_cl == 'Rogue':
+                if p_cl == 'Warrior':
+                    player = Warrior()
+                    player.name = player_name
+                    units.append(player)
+                    print('Вы успешно создали персонажа')
+                    print(f'Ваш персонаж {player.class_name} {player.name}')
+                    player.add_player_items()
+                    break
+                elif p_cl == 'Paladin':
+                    player = Warrior()
+                    player.name = player_name
+                    units.append(player)
+                    print('Вы успешно создали персонажа')
+                    print(f'Ваш персонаж {player.class_name} {player.name}')
+                    player.add_player_items()
+                    break
+                elif p_cl == 'Rogue':
+                    player = Rogue()
+                    player.name = player_name
+                    units.append(player)
+                    print('Вы успешно создали персонажа:')
+                    print(f'Ваш персонаж {player.class_name} {player.name}')
+                    player.add_player_items()
+                    break
+            else:
+                print('Вы неправильно ввели класс персонажа')
+
+
 # Генерация персонажей в список:
 def create_units(num):
-    unit_class = [Warrior, Paladin, Elf]
+    unit_class = [Warrior, Paladin, Rogue]
     for _ in range(num):
         unit = (random.choice(unit_class))()
+        # Даем бойцам рандомные предметы:
+        unit.setThings()
+        for i in range(len(unit.things)):
+            print(f'{unit.name} получил {unit.things[i].name}')
+            time.sleep(0.3)
         units.append(unit)
     print(f'{Fore.YELLOW}Перед Вами',
           f'{len(units)} Бойцов.{Style.RESET_ALL}')
@@ -208,5 +265,6 @@ def battle_royal():
             break
 
 
+create_player_unit()
 create_units(10)
 battle_royal()
