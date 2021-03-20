@@ -24,8 +24,11 @@ class Character:
                 f'Атака: {self.base_attack}\n'
                 f'Защита: {self.base_defence}\n')
 
+    def show_title(self):
+        return f'{self.type} {self.name}'
+
     def show_inventory(self):
-        return(f'Инвентарь {self.name}\n\n'+'\n'.join(item.show_stats() +
+        return('\n'.join(item.show_stats() +
                '\n' for item in self.items))
 
     def show_full_stats(self):

@@ -1,8 +1,12 @@
 import json
 from random import choice, randint, randrange
 
+import colorama
+
 from character import Paladin, Warrior
 from item import Item
+
+colorama.init(autoreset=True)
 
 
 class Game():
@@ -13,12 +17,14 @@ class Game():
         ITEM_TYPES.append(Item(item_list[item], mode='dict'))
 
     def __init__(self):
-        self.names = ['Добрыня', 'Иван', 'Зена', 'Сабзиро', 'Ибрагим',
-                      'Олимпия', 'Боб', 'Артемис', 'Апполинария', 'Арес',
-                      'Гвиневра', 'Теренитий', 'Валера']
+        self.names = ['Добрыня', 'Иван', 'Зенон', 'Сабзиро', 'Ибрагим',
+                      'Олимпиец', 'Боб', 'Артемис', 'Апполинарий', 'Арес',
+                      'Гвиневр', 'Теренитий', 'Валера']
         self.characters = []
         self.dead_characters = []
         self.items = []
+        self.round_number = 0
+        self.damage_dealt = 0
 
     def show_characters(self):
         return 'Чемпионы:\n'+'\n'.join(str(character)
@@ -69,13 +75,26 @@ class Game():
             if recieved == 'Dead':
                 self.dead_characters.append(target_character)
                 self.characters.remove(target_character)
-                print(f'{character.name} атакует {target_character.name} и '
-                      f'убивает его!')
+                print(colorama.Fore.RED + f'{character.name} атакует '
+                      f'{target_character.name} и убивает его!')
             else:
-                print(f'{character.name} атакует {target_character.name} и '
-                      f'наносит {recieved} урона!')
-        print('Paунд!!!\n\n\n')
+                self.damage_dealt += recieved
+                print(colorama.Fore.WHITE + f'{character.name} атакует '
+                      f'{target_character.name} и наносит {recieved} урона!')
+        self.round_number += 1
+        print(f'Paунд {self.round_number}\n\n')
 
     def play(self):
         while (len(self.characters) > 1):
             self.round()
+
+    def anounce_results(self):
+        champion = max(self.characters, key=lambda x: x.current_hp)
+        print(colorama.Fore.YELLOW + f'И победитель этой битвы! В которой было'
+                                     f' нанесено {self.damage_dealt} урона!!\n'
+                                     f'{champion.show_full_stats()}\n'
+                                     f'А вот и его вещи:\n'
+                                     f'{champion.show_inventory()}\n')
+        print(colorama.Fore.CYAN +
+              'Покойтесь с миром\n' +
+              '\n'.join(char.show_title() for char in self.dead_characters))
