@@ -27,17 +27,26 @@ class Thing:
 
 
 class Person():
+    DEATH_PERSON = 'Что мертво, умереть не может. Персонаж {name} уже мёртв'
     INVENTORY = []
     MAX_DEFENSE = 30
+    LIMIT_CASE = ('Защита не может быть больше {limit}%. Для {name} установлена'
+                  ' максимальная защита')
 
     def __init__(self, name, health, defense, attack):
+        if health <= 0:
+            print(self.DEATH_PERSON.format(name=name))
         self.person_name = name
         self.base_health = health
-        self.base_defense = self.have_defense(defense)
+        self.base_defense = self.have_defense(defense, name)
         self.base_attack = attack
 
-    def have_defense(self, defense):
-        return self.DEFENSE_LIMIT if defense >= self.DEFENSE_LIMIT else defense
+    def have_defense(self, parameter, name):
+        limit = self.MAX_DEFENSE
+        if parameter >= limit:
+            print(self.LIMIT_CASE.format(limit=limit,name=name))
+            return limit
+        return parameter
 
     def set_things(self, things):
         pass
@@ -51,24 +60,31 @@ class Person():
 
 class Paladind(Person):
 
-    def __init__(self, health, defense):
-        self.health = health * 2
-        self.defense = self.have_defense(defense)
+    def __init__(self, name, health, defense, attack):
+        super(Paladind, self).__init__(name, health, defense, attack)
+        self.base_health *= 2
+        self.base_defense *= 2
 
 
 class Warrior(Person):
 
-    def __init__(self, attack):
-        self.attack = attack * 2
+    def __init__(self, name, health, defense, attack):
+        super(Warrior, self).__init__(name, health, defense, attack)
+        self.base_attack *= 2
 
 
 class Wizard(Person):
 
-    def __init__(self, health, defense, attack):
-        self.health = health / 2
-        self.defense =  self.have_defense(defense) / 2
-        self.attack = attack * 4
+    def __init__(self, name, health, defense, attack):
+        super(Wizard, self).__init__(name, health, defense, attack)
+        if self.base_health > 0:
+            self.base_health /= 3
+        self.base_attack *= 3
 
 
 if __name__ == '__main__':
     ring_of_power = Thing(name="Кольцо Всевластия", health=-5, defense=100)
+    superman = Person('Супермэн', 1000, 100, 100)
+    zombie = Wizard('Зомби', 0, 0, 30)
+    
+    print(zombie.person_name, zombie.base_health, zombie.base_defense, zombie.base_attack)
