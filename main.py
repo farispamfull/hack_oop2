@@ -137,6 +137,7 @@ class Game():
     NUMBER_OF_PERSONS = 10
 
     def create_items(self, counter):
+        """Создаем вещи"""
         all_items = [
             self.HELMETS,
             self.ARMORS,
@@ -172,6 +173,7 @@ class Game():
         return sorted_items
 
     def create_persons(self):
+        """Создаем персонажей"""
         classes = ["paladin", "warrior"]
         persons = []
         for i in range(self.NUMBER_OF_PERSONS):
@@ -189,6 +191,7 @@ class Game():
         return persons
 
     def start_new_game(self):
+        """Начинаем игру"""
         print("Добро пожаловать на пивную арену!")
         # 1 шаг - создаем предметы
         items = self.create_items(random.randint(10, 30))
