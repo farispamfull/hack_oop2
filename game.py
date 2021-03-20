@@ -1,4 +1,5 @@
 import random
+from colorama import init, Fore, Back
 
 
 names = ['Берси', 'Бо', 'Болли', 'Бранд', 'Калле', 'Карл', 'Клаус', 'Оддманд',
@@ -57,6 +58,7 @@ def CreatePerson():
 
 
 if __name__ == '__main__':
+    init()
     # 1 Генерим список вещей
     things = sorted([Thing(name=random.choice(things_name), defense=random.randint(1, 10)/100,
         attack=random.randint(1, 10), life=random.randint(1, 10)) for _ in range(40)
@@ -79,12 +81,14 @@ if __name__ == '__main__':
             id_s = random.randrange(len(mob))
             id_d = random.randrange(len(mob))
         else:
-            print('Победил:', mob[0].name)
+            print(Fore.GREEN + 'Победил: {}'.format( mob[0].name))
             break
 
         attack_damage = mob[id_s].base_attack - mob[id_s].base_attack * mob[id_d].base_defense
         mob[id_d].setLife(attack_damage)
-        print('{} наносит удар по {} на {:.3f} урона.'.format(mob[id_s].name, mob[id_d].name, attack_damage))
+        print(Fore.YELLOW + '{}'.format(mob[id_s].name),
+            Fore.WHITE + 'наносит удар по',
+            Fore.YELLOW + '{}'.format(mob[id_d].name),
+            Fore.WHITE + 'на {:.3f} урона.'.format(attack_damage))
         if mob[id_d].lifes <= 0:
             mob.pop(id_d)
-    
