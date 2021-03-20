@@ -118,4 +118,4 @@ class Warrior(Person):
 
 class Rogue(Person):
     cls: str = 'rogue'
-    pare_probability = 0.3
+    dodge_probability = 0.5

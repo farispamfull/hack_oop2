@@ -1,5 +1,7 @@
 import random
 
+import colorama
+
 from game_objects.items import Item
 from game_objects.characters import Paladin, Warrior, Rogue
 from game_objects.utils import AttackStatus
@@ -26,6 +28,7 @@ MOVE_DESCRIPTION = (
 )
 
 if __name__ == '__main__':
+    colorama.init()
     characters = CustomList([random.choice(CLASSES)() for _ in range(20)])
 
     for character in characters:
@@ -37,19 +40,39 @@ if __name__ == '__main__':
         attack_description = random.choice(MOVE_DESCRIPTION)
         defence_description = random.choice(MOVE_DESCRIPTION)
 
-        print(f'{attacking_character} {attack_description} attacks {defencing_character}:'
-              f' {attacking_character.power} hit points.')
+        print(
+            colorama.Fore.BLACK + colorama.Back.YELLOW +
+            f'{attacking_character} {attack_description} attacks {defencing_character}:'
+            f' {attacking_character.power} hit points.' +
+            colorama.Style.RESET_ALL
+            )
         status = defencing_character.take_damage(attacking_character.power)
         if status is AttackStatus.HIT:
-            print(f'{defencing_character} {defence_description} stands.')
+            print(
+                colorama.Fore.BLUE +
+                f'{defencing_character} {defence_description} stands.' +
+                colorama.Style.RESET_ALL
+            )
             characters.append(defencing_character)
         elif status is AttackStatus.KILL:
-            print(f'{defencing_character} {defence_description} dies.')
+            print(
+                colorama.Fore.RED +
+                f'{defencing_character} {defence_description} dies.' +
+                colorama.Style.RESET_ALL
+            )
             del defencing_character
         elif status is AttackStatus.DODGE:
-            print(f'{defencing_character} {defence_description} dodges attack.')
+            print(
+                colorama.Fore.GREEN +
+                f'{defencing_character} {defence_description} dodges attack.' +
+                colorama.Style.RESET_ALL
+            )
 
     win_description = random.choice(MOVE_DESCRIPTION)
-    print(f'{characters[0]} {win_description} wins!')
+    print(
+        colorama.Fore.BLACK + colorama.Back.GREEN +
+        f'{characters[0]} {win_description} wins!' +
+        colorama.Style.RESET_ALL
+    )
 
 
