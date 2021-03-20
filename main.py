@@ -18,7 +18,7 @@ class Thing:
 
 
 class Person:
-    MAX_DEFENCE = 70  # Total maximum defence with things
+    MAX_DEFENCE = 70  # Limit for maximum defence with things
 
     def __init__(self, name, base_attack, base_defence, base_hp):
         self.name = name
@@ -92,7 +92,7 @@ class Arena:
             'David Chase',
             'Silvio Dante',
             'Walter White',
-            ''
+            'John Dow'
         ]
         for i in range(number):
             # Randomly choose name and delete it from list to avoid name duplication
