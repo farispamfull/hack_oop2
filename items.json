@@ -1,0 +1,62 @@
+{
+  "Bread": {
+    "name": "Черствая Булка",
+    "attack": "4",
+    "defence": "1",
+    "additional_hp": "0"
+  },
+  "Sword": {
+      "name": "Меч",
+      "attack": "8",
+      "defence": "2",
+      "additional_hp": "0"
+    },
+  "Chair": {
+      "name": "Стул",
+      "attack": "4",
+      "defence": "2",
+      "additional_hp": "2"
+    },
+  "Mace": {
+      "name": "Булава",
+      "attack": "6",
+      "defence": "2",
+      "additional_hp": "2"
+    },
+  "Sword1": {
+      "name": "Меч леденец",
+      "attack": "3",
+      "defence": "2",
+      "additional_hp": "8"
+    },
+  "Sword2": {
+      "name": "Меч кладенец",
+      "attack": "8",
+      "defence": "4",
+      "additional_hp": "2"
+    },
+  "Shield": {
+      "name": "Щит",
+      "attack": "2",
+      "defence": "10",
+      "additional_hp": "2"
+    },
+  "Helmet": {
+      "name": "Шлем",
+      "attack": "0",
+      "defence": "8",
+      "additional_hp": "6"
+    },
+  "Handband": {
+      "name": "Нарукавник",
+      "attack": "0",
+      "defence": "4",
+      "additional_hp": "4"
+    },
+  "Ironboot": {
+      "name": "Железный ботинок",
+      "attack": "4",
+      "defence": "6",
+      "additional_hp": "4"
+    }
+}
