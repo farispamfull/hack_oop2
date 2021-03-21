@@ -42,10 +42,10 @@ class Person:
         # принимаем номера или номер вещи и удаляем
 
         things = self.things
-
+        
         for i in index:
-            thing = things[i - 1]
-            # добавляем вещь с отрицательными значениями, чтобы изменить статы
+            thing = things[i - 1] # смещение на 1, потому что индексы с 0 идут
+            # добавляем вещь с отрицательными значениями, чтобы вычесть статы вещи
             self._append_things([-thing])
 
             del things[i - 1]
@@ -133,17 +133,20 @@ class Arena:
     def reset_hp(self, fight1, fight2):
         fight1.hp = fight1.base_hp
         fight2.hp = fight2.base_hp
-
+        
+    # метод используется в методах sparring,one_sparring
+    # возвращает проигравшего в конкретной схватке
     def fight(self, random_rivals):
 
         boy, boy2 = random_rivals
         loser = None
         while loser is None:
+            #наносим по очереди урон пока не умрет один из участников
             if boy._attack(boy2):
                 loser = boy2
             elif boy2._attack(boy):
                 loser = boy
-
+        #востанавливаем хп до базовых значений
         self.reset_hp(boy, boy2)
         return loser
 
@@ -175,13 +178,14 @@ class Arena:
             print(f'Поздравляем победителя Арены:\n{self.boy.pop()}')
 
     # сражения среди всех, кто есть
+    # выводит или возвращает победителя всех сражений.Арена при этом становится пустой
     def sparring(self, flag=False):
 
         while len(self.boy) > 2:
             random_rivals = self.random_rivals()
-            loser = self.fight(random_rivals)
+            loser = self.fight(random_rivals) #убираем с арены проигравшего
             self.boy.remove(loser)
-
+        #сюда пойдем когда останется 2 бойца на арене 
         random_rivals = self.random_rivals()
         loser = self.fight(random_rivals)
         self.boy.remove(loser)
@@ -275,6 +279,7 @@ class RandomTools:
         return RandomTools.random_rivals(1).pop()
 
 
+    
 # Пример вызова рандомных сражений
 arena = Arena()
 
@@ -286,11 +291,30 @@ a = arena.sparring(True)
 arena2 = Arena()
 alex = Warrior('alex', 10, 10, 14)
 ring = Thing('ring', 30, 2, 2)
-
-
 alex.setThings(ring, ring)
 alex.view_things()
 Jesus=RandomTools.one_rivals()   #один рандомный боец
 arena2.add_rival(alex,Jesus)
 arena2.view_rivals()
 arena2.one_sparring()
+
+#Сражение на 3 арене между победителями двух предыдущих
+arena=Arena()
+arena2=Arena()
+arena3=Arena()
+arena.add_rival(*RandomTools.random_rivals(14))
+arena2.add_rival(*RandomTools.random_rivals(14))
+one_winner=arena.sparring(True)
+two_winner=arena2.sparring(True)
+arena3.add_rival(one_winner,two_winner)
+print('_________________________________________')
+arena3.view_rivals()
+arena3.one_sparring()
+
+#делаем привязку к арене через поле класса
+#Делать лучше тогда, когда есть только одна арена, иначе бойцы из других арен привяжуться к нашей
+arena=Arena()
+Person.arena=arena
+RandomTools.random_rivals(16) # в арене сразу появится 16 бойцов
+print(arena)
+arena.sparring() #можно сразу вызывать сражения
